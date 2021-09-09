@@ -12,7 +12,7 @@ filename = f'{current_path}/authenticator.txt'
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--file", help="path to Google Authenticator exported text file")
 args = parser.parse_args()
-if not args.file == None:
+if args.file:
     filename = args.file
 
 # get lines from file into list:
@@ -22,12 +22,11 @@ with open(filename, 'r', encoding='UTF-8') as f:
 
 # generate qr codes from each line in lines list:
 number_of_codes = len(lines)
-current_number = 0
-for line in lines:
-    current_number += 1
+for i, line in enumerate(lines):
+    i += 1
     print('-------------------------------------------------------------------')
-    print(f'QR CODE [{current_number} of {number_of_codes}]:')
+    print(f'QR CODE [{i} of {number_of_codes}]:')
     print(line)
     qr.main(args=[line])
-    if current_number != number_of_codes:
+    if i != number_of_codes:
         input('Press Enter to continue...')
